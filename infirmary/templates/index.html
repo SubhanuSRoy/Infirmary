@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <title>Infirmary Records</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+
+      /* RESET RULES
+      –––––––––––––––––––––––––––––––––––––––––––––––––– */
+      :root {
+        --white: #d7d7d7;
+        --black: #0b0b0b
+        --red: #e31b23;
+        --bodyColor: #005bb6;
+        --borderFormEls: hsl(0, 0%, 10%);
+        --bgFormEls: hsl(0, 0%, 14%);
+        --bgFormElsFocus: hsl(223, 67%, 21%);
+      }
+
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        outline: none;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      input,
+      select,
+      textarea,
+      button,
+      a {
+        font-family: inherit;
+        font-size: 100%;
+      }
+
+      button,
+      label,
+      a {
+        cursor: pointer;
+      }
+
+      select {
+        appearance: none;
+      }
+
+      /* Remove native arrow on IE */
+      select::-ms-expand {
+        display: none;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      
+      body {
+        font: 18px/1.5 "Open Sans", sans-serif;
+        background-image: url('https://s8.gifyu.com/images/bg-gif.gif');
+        background-size: cover;
+    
+    
+        
+        /* height: 100vh; */
+        color: var(--black);
+        margin: 1.5rem 0;
+      }
+
+      a{
+        text-decoration: none;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      /* FORM ELEMENTS
+      –––––––––––––––––––––––––––––––––––––––––––––––––– */
+      .my-form h1 {
+        margin-bottom: 1.5rem;
+      }
+
+      .my-form li,
+      .my-form .grid > *:not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
+
+      .my-form select,
+      .my-form input,
+      .my-form textarea,
+      .my-form button,
+      .my-form a {
+        width: 100%;
+        line-height: 1.5;
+        padding: 15px 10px;
+        border: 1px solid var(--borderFormEls);
+        color: var(--white);
+        background: var(--bgFormEls);
+        transition: background-color 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25),
+          transform 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25);
+      }
+
+      .my-form textarea {
+        height: 170px;
+      }
+
+      .my-form ::placeholder {
+        color: inherit;
+        /*Fix opacity issue on Firefox*/
+        opacity: 1;
+      }
+
+      .my-form select:focus,
+      .my-form input:focus,
+      .my-form textarea:focus,
+      .my-form button:enabled:hover,
+      .my-form button:focus,
+      .my-form a,
+      .my-form input[type="checkbox"]:focus + label {
+        background: var(--bgFormElsFocus);
+      }
+
+      .my-form select:focus,
+      .my-form input:focus,
+      .my-form textarea:focus {
+        transform: scale(1.02);
+      }
+
+      .my-form *:required,
+      .my-form select {
+        background-repeat: no-repeat;
+        background-position: center right 12px;
+        background-size: 15px 15px;
+      }
+
+      .my-form *:required {
+        background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/asterisk.svg);
+      }
+
+      .my-form select {
+        background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/down.svg);
+      }
+
+      .my-form *:disabled {
+        cursor: default;
+        filter: blur(2px);
+      }
+
+      /* FORM BTNS
+      –––––––––––––––––––––––––––––––––––––––––––––––––– */
+      .my-form .required-msg {
+        display: none;
+        background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/asterisk.svg)
+          no-repeat center left / 15px 15px;
+        padding-left: 20px;
+      }
+
+      .my-form .btn-grid {
+        position: relative;
+        overflow: hidden;
+        transition: filter 0.2s;
+      }
+
+      .my-form button,
+      .my-form a {
+        font-weight: bold;
+      }
+
+      .my-form button > * {
+        display: inline-block;
+        width: 100%;
+        transition: transform 0.4s ease-in-out;
+      }
+
+      .my-form button .back {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-110%, -50%);
+      }
+
+      .my-form button:enabled:hover .back,
+      .my-form button:focus .back {
+        transform: translate(-50%, -50%);
+      }
+
+      .my-form button:enabled:hover .front,
+      .my-form button:focus .front {
+        transform: translateX(110%);
+      }
+
+      /* CUSTOM CHECKBOX
+      –––––––––––––––––––––––––––––––––––––––––––––––––– */
+      .my-form input[type="checkbox"] {
+        position: absolute;
+        left: -9999px;
+      }
+
+      .my-form input[type="checkbox"] + label {
+        position: relative;
+        display: inline-block;
+        padding-left: 2rem;
+        transition: background 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25);
+      }
+
+      .my-form input[type="checkbox"] + label::before,
+      .my-form input[type="checkbox"] + label::after {
+        content: "";
+        position: absolute;
+      }
+
+      .my-form input[type="checkbox"] + label::before {
+        left: 0;
+        top: 6px;
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--white);
+      }
+
+      .my-form input[type="checkbox"]:checked + label::before {
+        background: var(--red);
+      }
+
+      .my-form input[type="checkbox"]:checked + label::after {
+        left: 7px;
+        top: 7px;
+        width: 6px;
+        height: 14px;
+        border-bottom: 2px solid var(--white);
+        border-right: 2px solid var(--white);
+        transform: rotate(45deg);
+      }
+
+      /* FOOTER
+      –––––––––––––––––––––––––––––––––––––––––––––––––– */
+      footer {
+        font-size: 1rem;
+        text-align: right;
+        backface-visibility: hidden;
+      }
+
+      footer a {
+        text-decoration: none;
+      }
+
+      footer span {
+        color: var(--red);
+      }
+
+      /* MQ
+      –––––––––––––––––––––––––––––––––––––––––––––––––– */
+      @media screen and (min-width: 600px) {
+        .my-form .grid {
+          display: grid;
+          grid-gap: 1.5rem;
+        }
+
+        .my-form .grid-2 {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .my-form .grid-3 {
+          grid-template-columns: auto auto auto;
+          align-items: center;
+        }
+
+        .my-form .grid > *:not(:last-child) {
+          margin-bottom: 0;
+        }
+
+        .my-form .required-msg {
+          display: block;
+        }
+      }
+
+      @media screen and (min-width: 541px) {
+        .my-form input[type="checkbox"] + label::before {
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .my-form input[type="checkbox"]:checked + label::after {
+          top: 3px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <strong>School Final Project <span>🎒</span> </strong>
+      </div>
+    </header>
+    <br>
+    <form class="my-form" method="post" action="searchDB">
+      <!-- adds an extra level of security-->
+      {% csrf_token %}
+      <div class="container">
+        <h1>Infirmary Website <span>🩺</span></h1>
+        <br>
+        <h3>Do you want to add a record or search by a name?</h3>
+        <br />
+        <ul>
+          <li>
+            <div class="grid">
+              <a href="{% url 'add' %}">Add a Record ➕</a>
+          </li>
+          <li>
+            <div class="grid grid-3">
+              <input
+                type="text"
+                name="fname"
+                placeholder="Enter First Name"
+                required
+              />
+              <input
+                type="text"
+                name="lname"
+                placeholder="Enter Last Name"
+                required
+              />
+              <button class="btn-grid" type="submit">
+                <span class="back">
+                  <img
+                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/email-icon.svg"
+                    alt=""
+                  />
+                </span>
+                <span class="front">SEARCH</span>
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </form>
+    <footer>
+      <div class="container">
+        <small
+          >Made with <span>❤</span> by
+          <a
+          href = "mailto: krishmsheth2005@gmail.com"
+            
+            >Krish</a
+          >
+        </small>
+      </div>
+    </footer>
+  </body>
+</html>
