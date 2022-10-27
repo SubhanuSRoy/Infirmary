@@ -1,0 +1,1 @@
+we gunicorn infirmary.wsgi:application --log-file -
